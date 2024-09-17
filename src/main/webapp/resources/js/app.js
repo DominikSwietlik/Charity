@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
   /**
    * Form Select
@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
     }
   }
+
   document.querySelectorAll(".form-group--dropdown select").forEach(el => {
     new FormSelect(el);
   });
@@ -118,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     /**
-     * All events that are happening in form
+     * All events that are happening in form steps
      */
     events() {
       // Next step
@@ -140,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       // Form submit
-      this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
+      this.$form.addEventListener("submit", e => this.submit(e));
     }
 
     /**
@@ -167,8 +168,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
   }
+
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
   }
+
 });
