@@ -115,14 +115,14 @@
             <div class="form-group form-group--inline">
                 <label>
                     Liczba 60l worków:
-                    <input id="bagsId}"type="number" name="bags" step="1" min="1" required />
+                    <input id="bagsId" type="number" name="bags" step="1" min="1" required="required" />
                 </label>
             </div>
 
             <div class="form-group form-group--buttons">
 
                 <button type="button" class="btn prev-step">Wstecz</button>
-                <button type="submit" class="btn next-step">Dalej</button>
+                <button type="button" class="btn next-step">Dalej</button>
 
             </div>
         </div>
