@@ -25,7 +25,7 @@ public class IndexController {
         model.addAttribute("donations", donationRepository.findTotalQuantity());
         model.addAttribute("gifts", donationRepository.findAll().size());
         model.addAttribute("institutions", institutionRepository.findAll());
-    return "idnex";
+    return "index";
 }
 
 }

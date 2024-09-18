@@ -126,8 +126,14 @@ document.addEventListener("DOMContentLoaded", function () {
       this.$next.forEach(btn => {
         btn.addEventListener("click", e => {
           e.preventDefault();
-          this.currentStep++;
-          this.updateForm();
+          if (this.currentStep < 5) {
+            this.currentStep++;
+            this.updateForm();
+          }
+
+          if (this.currentStep === 5) {
+            this.updateSummary(); // Update the summary at step 6 (data-step="5")
+          }
         });
       });
 
@@ -135,8 +141,10 @@ document.addEventListener("DOMContentLoaded", function () {
       this.$prev.forEach(btn => {
         btn.addEventListener("click", e => {
           e.preventDefault();
-          this.currentStep--;
-          this.updateForm();
+          if (this.currentStep > 1) {
+            this.currentStep--;
+            this.updateForm();
+          }
         });
       });
 
@@ -151,8 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
     updateForm() {
       this.$step.innerText = this.currentStep;
 
-      // TODO: Validation
-
       this.slides.forEach(slide => {
         slide.classList.remove("active");
 
@@ -163,10 +169,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
       this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 5;
       this.$step.parentElement.hidden = this.currentStep >= 5;
-
-      // TODO: get data from inputs and show them in summary
     }
 
+    /**
+     * Gather form data and display it in the summary at step 6
+     */
+    updateSummary() {
+      // Get the number of bags
+      const bags = document.querySelector('input[name="bags"]').value;
+      document.getElementById('summary-bags').innerText = `${bags} worki/ów`;
+
+      // Get the selected organization
+      const selectedOrganization = document.querySelector('input[name="organization"]:checked');
+      if (selectedOrganization) {
+        const organizationName = selectedOrganization.closest('label').querySelector('.title').innerText;
+        document.getElementById('summary-organization').innerText = organizationName;
+      }
+
+      // Get the address details
+      document.getElementById('summary-address').innerText = document.querySelector('input[name="address"]').value;
+      document.getElementById('summary-city').innerText = document.querySelector('input[name="city"]').value;
+      document.getElementById('summary-postcode').innerText = document.querySelector('input[name="postcode"]').value;
+      document.getElementById('summary-phone').innerText = document.querySelector('input[name="phone"]').value;
+
+      // Get the pickup date and time
+      document.getElementById('summary-date').innerText = document.querySelector('input[name="data"]').value;
+      document.getElementById('summary-time').innerText = document.querySelector('input[name="time"]').value;
+
+      // Get additional info
+      document.getElementById('summary-more-info').innerText = document.querySelector('textarea[name="more_info"]').value;
+    }
   }
 
   const form = document.querySelector(".form--steps");

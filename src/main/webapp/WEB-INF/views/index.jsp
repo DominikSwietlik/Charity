@@ -122,6 +122,7 @@
             Możesz sprawdzić czym się zajmują.</p>
 
         <ul class="help--slides-items">
+
             <c:forEach var="institution" items="${institutions}" varStatus="status">
              <c:if test="${status.index % 2 == 0}">
                 <li>
@@ -136,9 +137,6 @@
             </c:if>
         </c:forEach>
 
-            <c:if test="${institutions.size() % 2 != 0}">
-                </li>
-            </c:if>
         </ul>
     </div>
 
