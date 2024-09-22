@@ -1,5 +1,6 @@
 package pl.coderslab.charity.controller;
 
+import lombok.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,8 @@ import pl.coderslab.charity.repository.CategoryRepository;
 import pl.coderslab.charity.repository.DonationRepository;
 import pl.coderslab.charity.repository.InstitutionRepository;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -41,51 +44,27 @@ public class DonationController {
     }
 
     @PostMapping("/donations/save")
-    public String saveDonation(@RequestParam("categories") List<Long> categories, @RequestParam("bags")Integer bags,
+    public String saveDonation(@RequestParam("categories") List<Long> categories, @RequestParam("bags") @NotNull @Min(1) Integer bags,
                                @RequestParam("organization") Long organization,
                                @RequestParam("address") String address, @RequestParam("city") String city,
                                @RequestParam("postcode") String postcode, @RequestParam("phone") String phone,
                                @RequestParam("data") String data, @RequestParam("time") String time,
                                @RequestParam("more_info") String more_info, Model model){
         Donation donation = new Donation();
-        //System.out.println(categories.size());
-            List<Category> categories2 = new ArrayList<>();
-            List<Category> catTmp = new ArrayList<>();
 
-            for(Long el : categories)
-            {
-                Optional<Category> categoryOptional = categoryRepository.findById(el);
-                categories2.add(categoryOptional.get());
-            }
+            List<Category> categories2 = categoryRepository.findByIdIn(categories);
+
 
         donation.setCategories(categories2);
-
-        System.out.println(bags);
         donation.setQuantity(bags);
-
-        System.out.println(organization);
         Optional<Institution> institution = institutionRepository.findById(organization);
         donation.setInstitution(institution.get());
-
-        System.out.println(address);
         donation.setStreet(address);
-
-        System.out.println(city);
         donation.setCity(city);
-
-        System.out.println(postcode);
         donation.setZipCode(postcode);
-
-        System.out.println(phone);
         donation.setPhone(phone);
-
-        System.out.println(data);
         donation.setPickUpDate(LocalDate.parse(data));
-
-        System.out.println(time);
         donation.setPickUpTime(LocalTime.parse(time));
-
-        System.out.println(more_info);
         donation.setPickUpComment(more_info);
 
         donationRepository.save(donation);
